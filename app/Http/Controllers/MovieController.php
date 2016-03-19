@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use File;
+use Image;
 use Gate;
 use App\Movie;
 use Illuminate\Http\Request;
@@ -42,7 +44,7 @@ class MovieController extends Controller
    */
   public function index()
   {
-    $movies = Movie::all();
+    $movies = Movie::orderBy('created_at', 'desc')->get();
 
     return view('movie.index', [
       'movies' => $movies,
@@ -69,12 +71,18 @@ class MovieController extends Controller
   {
     $this->validate($request, $this->rules);
 
+    $imageName = 'missing.jpg';
+    if ($request->hasFile('image')) {
+      $imageName = $this->storeImage($request->file('image'));
+    }
+
     $movie = new Movie;
     $movie->title = $request->title;
     $movie->description = $request->description;
     $movie->movie_length = $request->movie_length;
     $movie->director = $request->director;
     $movie->rating = $request->rating;
+    $movie->image = $imageName;
     $movie->user_id = $request->user()->id;
     $movie->save();
 
@@ -132,6 +140,12 @@ class MovieController extends Controller
 
     $this->validate($request, $this->rules);
 
+    if ($request->hasFile('image')) {
+      $imageName = $this->storeImage($request->file('image'));
+      if ($movie->image != 'missing.jpg') File::delete(public_path('uploads/movies/img/') . $movie->image);
+      $movie->image = $imageName;
+    }
+
     $movie->title = $request->title;
     $movie->description = $request->description;
     $movie->movie_length = $request->movie_length;
@@ -156,8 +170,22 @@ class MovieController extends Controller
       abort(403);
     }
 
+    if ($movie->image != 'missing.jpg') File::delete(public_path('uploads/movies/img/') . $movie->image);
     $movie->delete();
 
     return redirect('movie');
+  }
+
+  private function storeImage ($image) {
+    $imageName = md5($image->getClientOriginalName() . microtime())
+                  . '.' . $image->getClientOriginalExtension();
+
+    Image::make($image)
+            ->resize(800, null, function ($constraint) {
+              $constraint->aspectRatio();
+            })
+            ->save(public_path('uploads/movies/img/') . $imageName);
+
+    return $imageName;
   }
 }

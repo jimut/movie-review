@@ -8,6 +8,7 @@
   <li>{{ $movie->movie_length }}</li>
   <li>{{ $movie->director }}</li>
   <li>{{ $movie->rating }}</li>
+  <img src="{{ URL::asset('uploads/movies/img/' . $movie->image) }}" alt="">
 </ul>
 
 <a href="{{ route('movie.edit', [$movie]) }}">Edit</a>

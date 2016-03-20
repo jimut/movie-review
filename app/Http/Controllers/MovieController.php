@@ -86,7 +86,8 @@ class MovieController extends Controller
     $movie->user_id = $request->user()->id;
     $movie->save();
 
-    return redirect()->route('movie.show', [$movie]);
+    return redirect()->route('movie.show', [$movie])
+                     ->with('notice', 'Movie Created');
   }
 
   /**
@@ -153,7 +154,8 @@ class MovieController extends Controller
     $movie->rating = $request->rating;
     $movie->save();
 
-    return redirect()->route('movie.show', [$movie]);
+    return redirect()->route('movie.show', [$movie])
+                     ->with('notice', 'Movie Updated');
   }
 
   /**

@@ -32,7 +32,29 @@
                 </tr>
               </tbody>
             </table>
+
+            <a href="{{ route('movie.review.create', [$movie]) }}">Write a Review</a>
           </div>
+        </div>
+        <div class="col-md-7 col-md-offset-1">
+          <h1 class="review_title">{{ $movie->title }}</h1>
+          <p>{{ $movie->description }}</p>
+
+          @if (count($movie->reviews) > 0)
+
+            @foreach ($movie->reviews()->orderBy('created_at', 'desc')->get() as $review)
+              <div class="reviews">
+                <div class="star-rating" data-score="{{ $review->rating }}"></div>
+                <p>{{ $review->comment }}</p>
+              </div>
+            @endforeach
+
+          @else
+
+            <h3>No reviews just yet, would you like to add the first!</h3>
+            <a href="{{ route('movie.review.create', [$movie]) }}" class="btn btn-danger">Write Review</a>
+
+          @endif
         </div>
       </div>
     </div>
@@ -47,5 +69,15 @@
       <button type="submit">Delete</button>
     </form>
   @endcan
+
+  <script>
+    $('.star-rating').raty({
+      path: '{{ url("includes/raty-master/images/") }}',
+      readOnly: true,
+      score: function () {
+        return $(this).attr('data-score');
+      }
+    });
+  </script>
 
 @endsection

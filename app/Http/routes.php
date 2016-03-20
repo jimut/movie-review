@@ -29,4 +29,7 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
   Route::auth();
   Route::resource('movie', 'MovieController');
+  Route::resource('movie.review', 'ReviewController', ['only' => [
+      'store', 'update', 'destroy', 'create'
+    ]]);
 });

@@ -11,6 +11,7 @@
         <td>Director</td>
         <td>Rating</td>
         <td>Owner</td>
+        <td>Poster</td>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
           <td>{{ $movie->director }}</td>
           <td>{{ $movie->rating }}</td>
           <td>{{ $movie->user->name }}</td>
+          <td><img src="{{ url('imagecache/small/' . $movie->image) }}" alt=""></td>
         </tr>
       @endforeach
     </tbody>

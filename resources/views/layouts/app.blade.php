@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link href="{{ URL::asset('includes/bootstrap-3.3.6/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/css/main.css') }}" rel="stylesheet">
 
     <style>
         /*body {

@@ -7,6 +7,8 @@
       <div class="row">
         <div class="col-md-4">
           <img src="{{ url('imagecache/poster/'. $movie->image) }}">
+          <div class="star-rating" data-score="{{ $movie->reviews->avg('rating') }}"></div>
+          <em>{{ count($movie->reviews) }} reviews</em>
           <div class="table-responsive">
             <table class="table">
               <tbody>

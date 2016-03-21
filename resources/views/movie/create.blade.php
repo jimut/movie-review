@@ -20,9 +20,7 @@
     <label for="description">Description</label>
     <textarea type="text"
             name="description"
-            id="description">
-            {{ old('description') }}
-    </textarea>
+            id="description">{{ old('description') }}</textarea>
 
     <br>
     <label for="movie_length">Movie Length</label>

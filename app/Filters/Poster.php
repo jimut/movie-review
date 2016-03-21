@@ -9,8 +9,6 @@ class Poster implements FilterInterface
 {
     public function applyFilter(Image $image)
     {
-        return $image->resize(300, null, function ($constraint) {
-          $constraint->aspectRatio();
-        });
+        return $image->fit(300, 450);
     }
 }

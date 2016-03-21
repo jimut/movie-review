@@ -2,13 +2,15 @@
 
 @section('content')
 
-  <div class="panel panel-default">
+  <div class="panel panel-default" id="show_page">
     <div class="panel-body">
       <div class="row">
         <div class="col-md-4">
-          <img src="{{ url('imagecache/poster/'. $movie->image) }}">
-          <div class="star-rating" data-score="{{ $movie->reviews->avg('rating') }}"></div>
-          <em>{{ count($movie->reviews) }} reviews</em>
+          <div class="text-center">
+            <img src="{{ url('imagecache/poster/'. $movie->image) }}">
+            <div class="star-rating" data-score="{{ $movie->reviews->avg('rating') }}"></div>
+            <em>{{ count($movie->reviews) }} reviews</em>
+          </div>
           <div class="table-responsive">
             <table class="table">
               <tbody>
@@ -34,9 +36,8 @@
                 </tr>
               </tbody>
             </table>
-
-            <a href="{{ route('movie.review.create', [$movie]) }}">Write a Review</a>
           </div>
+          <a href="{{ route('movie.review.create', [$movie]) }}">Write a Review</a>
         </div>
         <div class="col-md-7 col-md-offset-1">
           <h1 class="review_title">{{ $movie->title }}</h1>

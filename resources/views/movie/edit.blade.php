@@ -21,9 +21,7 @@
     <label for="description">Description</label>
     <textarea type="text"
             name="description"
-            id="description">
-            {{ $movie->description }}
-    </textarea>
+            id="description">{{ $movie->description }}</textarea>
 
     <br>
     <label for="movie_length">Movie Length</label>

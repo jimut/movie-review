@@ -18,9 +18,7 @@
     <label for="comment">Comment</label>
     <textarea type="text"
            name="comment"
-           id="comment">
-           {{ old('comment') }}
-    </textarea>
+           id="comment">{{ old('comment') }}</textarea>
 
     <br>
 

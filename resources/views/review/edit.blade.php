@@ -23,9 +23,7 @@
     <label for="comment">Comment</label>
     <textarea type="text"
            name="comment"
-           id="comment">
-           {{ $review->comment }}
-    </textarea>
+           id="comment">{{ $review->comment }}</textarea>
 
     <br>
 

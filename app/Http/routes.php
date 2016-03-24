@@ -32,4 +32,5 @@ Route::group(['middleware' => ['web']], function () {
   Route::resource('movie.review', 'ReviewController', ['only' => [
       'store', 'update', 'destroy', 'create'
     ]]);
+  Route::get('search', 'MovieController@search');
 });

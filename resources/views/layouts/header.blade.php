@@ -22,9 +22,13 @@
                 <li><a href="{{ route('movie.create') }}">New Movie</a></li>
             </ul>
 
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left"
+                  role="search"
+                  method="GET"
+                  action="{{ url('search') }}">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="Search"
+                       name="q">
               </div>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>

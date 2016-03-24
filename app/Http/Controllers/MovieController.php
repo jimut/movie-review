@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use SearchIndex;
 use File;
 use Image;
 use Gate;
@@ -33,7 +34,7 @@ class MovieController extends Controller
   public function __construct()
   {
       $this->middleware('auth', [
-        'except' => ['index' ,'show']
+        'except' => ['index' ,'show', 'search']
       ]);
   }
 
@@ -85,6 +86,8 @@ class MovieController extends Controller
     $movie->image = $imageName;
     $movie->user_id = $request->user()->id;
     $movie->save();
+
+    SearchIndex::upsertToIndex($movie);
 
     return redirect()->route('movie.show', [$movie])
                      ->with('notice', 'Movie Created');
@@ -154,6 +157,8 @@ class MovieController extends Controller
     $movie->rating = $request->rating;
     $movie->save();
 
+    SearchIndex::upsertToIndex($movie);
+
     return redirect()->route('movie.show', [$movie])
                      ->with('notice', 'Movie Updated');
   }
@@ -190,4 +195,29 @@ class MovieController extends Controller
 
     return $imageName;
   }
+
+  public function search (Request $request) {
+    $query = [
+      'index' => 'moviereview',
+      'body' => [
+        'query' => [
+          'match_phrase' => [
+            'title' => $request->q
+          ]
+        ]
+      ]
+    ];
+
+    $result = SearchIndex::getResults($query);
+
+    $movies = null;
+    foreach ($result['hits']['hits'] as $movie) {
+      $movies[] = Movie::find($movie['_id']);
+    }
+
+    return view('movie.index', [
+      'movies' => $movies,
+    ]);
+  }
+  
 }
